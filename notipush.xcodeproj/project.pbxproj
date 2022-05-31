@@ -16,6 +16,7 @@
 		7D6FA7E928329906003A199C /* notipushTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D6FA7E828329906003A199C /* notipushTests.swift */; };
 		7D6FA7F328329906003A199C /* notipushUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D6FA7F228329906003A199C /* notipushUITests.swift */; };
 		7D6FA7F528329906003A199C /* notipushUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D6FA7F428329906003A199C /* notipushUITestsLaunchTests.swift */; };
+		7DF5B09328448DE500198D25 /* AppConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7DF5B09228448DE500198D25 /* AppConstants.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -49,6 +50,10 @@
 		7D6FA7EE28329906003A199C /* notipushUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = notipushUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		7D6FA7F228329906003A199C /* notipushUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = notipushUITests.swift; sourceTree = "<group>"; };
 		7D6FA7F428329906003A199C /* notipushUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = notipushUITestsLaunchTests.swift; sourceTree = "<group>"; };
+		7DB0F2DB28352DF3005F69A1 /* notipush.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = notipush.entitlements; sourceTree = "<group>"; };
+		7DF5B0902840C07700198D25 /* ja */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ja; path = ja.lproj/Main.strings; sourceTree = "<group>"; };
+		7DF5B0912840C07700198D25 /* ja */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ja; path = ja.lproj/LaunchScreen.strings; sourceTree = "<group>"; };
+		7DF5B09228448DE500198D25 /* AppConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppConstants.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -99,6 +104,7 @@
 		7D6FA7D028329904003A199C /* notipush */ = {
 			isa = PBXGroup;
 			children = (
+				7DB0F2DB28352DF3005F69A1 /* notipush.entitlements */,
 				7D6FA7D128329904003A199C /* AppDelegate.swift */,
 				7D6FA7D328329904003A199C /* SceneDelegate.swift */,
 				7D6FA7D528329904003A199C /* ViewController.swift */,
@@ -106,6 +112,7 @@
 				7D6FA7DA28329906003A199C /* Assets.xcassets */,
 				7D6FA7DC28329906003A199C /* LaunchScreen.storyboard */,
 				7D6FA7DF28329906003A199C /* Info.plist */,
+				7DF5B09228448DE500198D25 /* AppConstants.swift */,
 			);
 			path = notipush;
 			sourceTree = "<group>";
@@ -213,6 +220,7 @@
 			knownRegions = (
 				en,
 				Base,
+				ja,
 			);
 			mainGroup = 7D6FA7C528329904003A199C;
 			productRefGroup = 7D6FA7CF28329904003A199C /* Products */;
@@ -261,6 +269,7 @@
 				7D6FA7D628329904003A199C /* ViewController.swift in Sources */,
 				7D6FA7D228329904003A199C /* AppDelegate.swift in Sources */,
 				7D6FA7D428329904003A199C /* SceneDelegate.swift in Sources */,
+				7DF5B09328448DE500198D25 /* AppConstants.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -301,6 +310,7 @@
 			isa = PBXVariantGroup;
 			children = (
 				7D6FA7D828329904003A199C /* Base */,
+				7DF5B0902840C07700198D25 /* ja */,
 			);
 			name = Main.storyboard;
 			sourceTree = "<group>";
@@ -309,6 +319,7 @@
 			isa = PBXVariantGroup;
 			children = (
 				7D6FA7DD28329906003A199C /* Base */,
+				7DF5B0912840C07700198D25 /* ja */,
 			);
 			name = LaunchScreen.storyboard;
 			sourceTree = "<group>";
@@ -320,6 +331,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++17";
@@ -380,6 +392,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++17";
@@ -435,26 +448,30 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = notipush/notipush.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = JBSZN5R6S9;
+				DEVELOPMENT_TEAM = 38C2C7JWCY;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = notipush/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = "メモ通知";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = UIInterfaceOrientationPortrait;
+				INFOPLIST_KEY_UIUserInterfaceStyle = Light;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = yidao.notipush;
+				PRODUCT_BUNDLE_IDENTIFIER = yidao.notipush.2;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
@@ -463,26 +480,30 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = notipush/notipush.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = JBSZN5R6S9;
+				DEVELOPMENT_TEAM = 38C2C7JWCY;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = notipush/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = "メモ通知";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = UIInterfaceOrientationPortrait;
+				INFOPLIST_KEY_UIUserInterfaceStyle = Light;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = yidao.notipush;
+				PRODUCT_BUNDLE_IDENTIFIER = yidao.notipush.2;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};

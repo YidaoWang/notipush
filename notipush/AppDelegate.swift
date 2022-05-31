@@ -9,26 +9,16 @@ import UIKit
 
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate,UNUserNotificationCenterDelegate {
-
-
-
+    var myViewController: ViewController!
+    
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
-        // プッシュ通知の許可を依頼する際のコード
-        UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .badge, .sound]) { (granted, error) in
-            // [.alert, .badge, .sound]と指定されているので、「アラート、バッジ、サウンド」の3つに対しての許可をリクエストした
-            if granted {
-                // 「許可」が押された場合
-            } else {
-                // 「許可しない」が押された場合
-            }
-        }
-        UNUserNotificationCenter.current().delegate = self
+        let notificationCenter = UNUserNotificationCenter.current()
+        notificationCenter.delegate = self
         return true
     }
 
     // MARK: UISceneSession Lifecycle
-
     func application(_ application: UIApplication, configurationForConnecting connectingSceneSession: UISceneSession, options: UIScene.ConnectionOptions) -> UISceneConfiguration {
         // Called when a new scene session is being created.
         // Use this method to select a configuration to create the new scene with.
@@ -45,18 +35,21 @@ class AppDelegate: UIResponder, UIApplicationDelegate,UNUserNotificationCenterDe
     func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
         completionHandler(
             [
-                UNNotificationPresentationOptions.banner,
+                //UNNotificationPresentationOptions.banner,
                 UNNotificationPresentationOptions.list,
                 UNNotificationPresentationOptions.sound,
-//                UNNotificationPresentationOptions.badge
+                UNNotificationPresentationOptions.badge
             ]
         )
     }
     
     // バックグランドで通知を受け取った際に呼ばれるメソッド
-    func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void) {
+    func userNotificationCenter(_ center: UNUserNotificationCenter,
+                                didReceive response: UNNotificationResponse,
+                                withCompletionHandler completionHandler: @escaping () -> Void) {
         completionHandler()
+        myViewController.removeCurrentNotifications()
+        myViewController.notify(nil)
+        myViewController.notifyPersistent()
     }
-
 }
-
