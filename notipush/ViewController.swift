@@ -59,6 +59,9 @@ class ViewController: UIViewController, UITextViewDelegate{
     }
     
     @objc func dismissKeyboard() {
+        if(switchView.isOn){
+            switchNotifyViewChange(isOn: true)
+        }
         self.view.endEditing(true)
     }
 
@@ -85,14 +88,21 @@ class ViewController: UIViewController, UITextViewDelegate{
     }
 
     
-    @IBAction func titleDidBeginEditing(_ sender: Any) {
+    @IBAction func titleDidBeginEditing(_ sender: UITextView) {
         errorMessage.text = nil
+        switchNotifyViewChange(isOn: false)
+    }
+    @IBAction func titleEditingChanged(_ sender: UITextView) {
         switchView.setOn(false, animated: true)
         switchValueChange(isOn: false)
     }
     
     func textViewDidBeginEditing(_ textView: UITextView) {
         errorMessage.text = nil
+        switchNotifyViewChange(isOn: false)
+    }
+    
+    func textViewDidChange(_ textView: UITextView) {
         switchView.setOn(false, animated: true)
         switchValueChange(isOn: false)
     }

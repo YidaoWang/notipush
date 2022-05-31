@@ -58,7 +58,7 @@
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="M42-On-GIp">
                                                 <rect key="frame" x="15" y="204" width="349" height="203"/>
                                                 <subviews>
-                                                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="タイトル" textAlignment="natural" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="U0h-qi-8at">
+                                                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="タイトル" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="U0h-qi-8at">
                                                         <rect key="frame" x="78" y="40" width="256" height="34"/>
                                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                         <constraints>
@@ -68,6 +68,7 @@
                                                         <textInputTraits key="textInputTraits"/>
                                                         <connections>
                                                             <action selector="titleDidBeginEditing:" destination="BYZ-38-t0r" eventType="editingDidBegin" id="hsD-sJ-JUn"/>
+                                                            <action selector="titleEditingChanged:" destination="BYZ-38-t0r" eventType="editingChanged" id="Xm3-7Y-MSC"/>
                                                         </connections>
                                                     </textField>
                                                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="メモ通知180x180" translatesAutoresizingMaskIntoConstraints="NO" id="AlV-GA-yfp">
@@ -202,7 +203,7 @@
                         <outlet property="errorMessage" destination="FK4-BI-qp1" id="hj3-Lb-pl7"/>
                         <outlet property="switchView" destination="rOp-oQ-ZQg" id="EEH-wa-Bg2"/>
                         <outlet property="textView" destination="JzV-Sd-482" id="V2F-ZJ-nah"/>
-                        <outlet property="titleField" destination="U0h-qi-8at" id="wYk-nn-nzY"/>
+                        <outlet property="titleField" destination="U0h-qi-8at" id="OJI-cA-7Kn"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
