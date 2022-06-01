@@ -6,12 +6,16 @@
 //
 
 import UIKit
+import GoogleMobileAds
 
 class ViewController: UIViewController, UITextViewDelegate{
     @IBOutlet weak var titleField: UITextField!
     @IBOutlet weak var switchView: UISwitch!
     @IBOutlet weak var textView: UITextView!
     @IBOutlet weak var errorMessage: UILabel!
+    @IBOutlet weak var editButton: UIButton!
+    @IBOutlet weak var editCountButton: UIButton!
+    var bannerView: GADBannerView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -24,17 +28,47 @@ class ViewController: UIViewController, UITextViewDelegate{
                 self.view.addGestureRecognizer(tapGR)
         titleField.leftView = UIView(frame: CGRect(x: 0, y: 0, width: 5, height: 0))
         titleField.leftViewMode = UITextField.ViewMode.always
-        titleField.layer.borderWidth = 0.5;
         titleField.layer.cornerRadius = 6;
         titleField.layer.borderColor = UIColor.quaternaryLabel.cgColor;
         titleField.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
-        textView.layer.borderWidth = 0.5;
         textView.layer.cornerRadius = 6;
         textView.layer.borderColor = UIColor.quaternaryLabel.cgColor;
         textView.layer.maskedCorners = [.layerMinXMaxYCorner, .layerMaxXMaxYCorner]
         loadAppData()
         notificationRequest()
+        setEditCount(count: 3)
+        bannerView = GADBannerView(adSize: GADAdSizeBanner)
+            addBannerViewToView(bannerView)
+
+            // GADBannerViewのプロパティを設定
+            bannerView.adUnitID = "ca-app-pub-3940256099942544/2934735716"
+            bannerView.rootViewController = self
+
+            // 広告読み込み
+            bannerView.load(GADRequest())
     }
+    
+    func addBannerViewToView(_ bannerView: GADBannerView) {
+      bannerView.translatesAutoresizingMaskIntoConstraints = false
+      view.addSubview(bannerView)
+      view.addConstraints(
+        [NSLayoutConstraint(item: bannerView,
+                            attribute: .bottom,
+                            relatedBy: .equal,
+                            toItem: view.safeAreaLayoutGuide,
+                            attribute: .bottom,
+                            multiplier: 1,
+                            constant: 0),
+         NSLayoutConstraint(item: bannerView,
+                            attribute: .centerX,
+                            relatedBy: .equal,
+                            toItem: view,
+                            attribute: .centerX,
+                            multiplier: 1,
+                            constant: 0)
+        ])
+     }
+
     
     func notificationRequest(){
         let notificationCenter = UNUserNotificationCenter.current()
@@ -60,7 +94,7 @@ class ViewController: UIViewController, UITextViewDelegate{
     
     @objc func dismissKeyboard() {
         if(switchView.isOn){
-            switchNotifyViewChange(isOn: true)
+            switchEditMode(isOn: false)
         }
         self.view.endEditing(true)
     }
@@ -79,32 +113,43 @@ class ViewController: UIViewController, UITextViewDelegate{
             removeCurrentNotifications()
             notify()
             notifyPersistent()
+            switchEditMode(isOn: false)
         }
         else{
             removeCurrentNotifications()
         }
-        switchNotifyViewChange(isOn: isOn)
         saveAppData()
     }
-
+    
+    @IBAction func editTouchUp(_ sender: Any) {
+        let count = getEditCount()
+        if(count > 0){
+            setEditCount(count: count-1)
+            errorMessage.text = nil
+            switchView.setOn(false, animated: true)
+            switchEditMode(isOn: true)
+        }else{
+            
+        }
+    }
     
     @IBAction func titleDidBeginEditing(_ sender: UITextView) {
-        errorMessage.text = nil
-        switchNotifyViewChange(isOn: false)
+//        errorMessage.text = nil
+//        switchEditMode(isOn: true)
     }
     @IBAction func titleEditingChanged(_ sender: UITextView) {
-        switchView.setOn(false, animated: true)
-        switchValueChange(isOn: false)
+//        switchView.setOn(false, animated: true)
+//        switchValueChange(isOn: true)
     }
-    
+
     func textViewDidBeginEditing(_ textView: UITextView) {
-        errorMessage.text = nil
-        switchNotifyViewChange(isOn: false)
+//        errorMessage.text = nil
+//        switchEditMode(isOn: true)
     }
-    
+
     func textViewDidChange(_ textView: UITextView) {
-        switchView.setOn(false, animated: true)
-        switchValueChange(isOn: false)
+//        switchView.setOn(false, animated: true)
+//        switchValueChange(isOn: false)
     }
     
     func saveAppData(){
@@ -118,19 +163,40 @@ class ViewController: UIViewController, UITextViewDelegate{
         titleField.text = UserDefaults.standard.string(forKey: AppConstants.TITLE_TEXT_KEY)
         let notifyFlag: Bool = UserDefaults.standard.bool(forKey: AppConstants.NOTIFY_FLAG_KEY)
         switchView.setOn(notifyFlag, animated: false)
-        switchNotifyViewChange(isOn: notifyFlag)
+        switchEditMode(isOn: false)
     }
     
-    func switchNotifyViewChange(isOn: Bool){
+    func setEditCount(count: Int){
+        if(count == 0){
+            editButton.isEnabled = false
+            editCountButton.backgroundColor = UIColor(red: 245/255, green: 60/255, blue: 20/255, alpha: 1.0)
+        }else{
+            editButton.isEnabled = true
+            editCountButton.backgroundColor = UIColor(red: 72/255, green: 159/255, blue: 248/255, alpha: 1.0)
+        }
+        editCountButton.setTitle(String(count), for: .normal)
+    }
+    
+    func getEditCount()->Int{
+        return Int(editCountButton.titleLabel?.text ?? "0") ?? 0
+    }
+    
+    func switchEditMode(isOn: Bool){
         if(isOn){
+            titleField.isEnabled = true
+            textView.isEditable = true
+            titleField.layer.borderWidth = 0.5
+            textView.layer.borderWidth = 0.5
+            editButton.isHidden = true
+        }
+        else{
+            titleField.isEnabled = false
+            textView.isEditable = false
             titleField.endEditing(true)
             textView.endEditing(true)
             titleField.layer.borderWidth = 0
             textView.layer.borderWidth = 0
-        }
-        else{
-            titleField.layer.borderWidth = 0.5
-            textView.layer.borderWidth = 0.5
+            editButton.isHidden = false
         }
     }
     

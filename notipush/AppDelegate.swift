@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import GoogleMobileAds
 
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate,UNUserNotificationCenterDelegate {
@@ -15,6 +16,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate,UNUserNotificationCenterDe
         // Override point for customization after application launch.
         let notificationCenter = UNUserNotificationCenter.current()
         notificationCenter.delegate = self
+        GADMobileAds.sharedInstance().start(completionHandler: nil)
         return true
     }
 

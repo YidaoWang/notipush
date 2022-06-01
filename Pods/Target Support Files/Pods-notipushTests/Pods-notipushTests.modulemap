@@ -1,0 +1,6 @@
+framework module Pods_notipushTests {
+  umbrella header "Pods-notipushTests-umbrella.h"
+
+  export *
+  module * { export * }
+}

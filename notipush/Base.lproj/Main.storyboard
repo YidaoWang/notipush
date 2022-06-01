@@ -97,16 +97,28 @@
                                                         <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                                                     </textView>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="即時通知" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="VV1-9f-Vwx">
-                                                        <rect key="frame" x="83" y="14" width="61.333333333333343" height="18"/>
+                                                        <rect key="frame" x="83" y="14" width="61.666666666666657" height="18"/>
                                                         <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="15"/>
                                                         <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                         <nil key="highlightedColor"/>
                                                     </label>
+                                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="cMN-gs-4sA">
+                                                        <rect key="frame" x="295" y="152" width="46" height="35"/>
+                                                        <state key="normal" title="Button"/>
+                                                        <buttonConfiguration key="configuration" style="plain" image="square.and.pencil" catalog="system" title="">
+                                                            <color key="baseForegroundColor" red="0.22396180030000001" green="0.50192213060000002" blue="0.7765024304" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                                        </buttonConfiguration>
+                                                        <connections>
+                                                            <action selector="editTouchUp:" destination="BYZ-38-t0r" eventType="touchUpInside" id="6wK-7A-2uS"/>
+                                                        </connections>
+                                                    </button>
                                                 </subviews>
                                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 <constraints>
+                                                    <constraint firstAttribute="trailing" secondItem="cMN-gs-4sA" secondAttribute="trailing" constant="8" id="7MQ-Pb-nM2"/>
+                                                    <constraint firstAttribute="bottom" secondItem="cMN-gs-4sA" secondAttribute="bottom" constant="16" id="Bxj-Zq-1zV"/>
                                                     <constraint firstItem="U0h-qi-8at" firstAttribute="top" secondItem="WQP-bA-G2i" secondAttribute="bottom" constant="8" id="CKL-xE-emy"/>
-                                                    <constraint firstItem="WQP-bA-G2i" firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="U0h-qi-8at" secondAttribute="trailing" id="GFp-2h-ang"/>
+                                                    <constraint firstItem="WQP-bA-G2i" firstAttribute="trailing" secondItem="U0h-qi-8at" secondAttribute="trailing" id="GFp-2h-ang"/>
                                                     <constraint firstAttribute="trailing" secondItem="U0h-qi-8at" secondAttribute="trailing" constant="15" id="HPe-vZ-XyX"/>
                                                     <constraint firstItem="JzV-Sd-482" firstAttribute="leading" secondItem="AlV-GA-yfp" secondAttribute="trailing" constant="13" id="LPx-Vp-mVS"/>
                                                     <constraint firstItem="AlV-GA-yfp" firstAttribute="centerY" secondItem="M42-On-GIp" secondAttribute="centerY" id="LqK-bV-ty2"/>
@@ -115,12 +127,14 @@
                                                     <constraint firstItem="AlV-GA-yfp" firstAttribute="top" secondItem="JzV-Sd-482" secondAttribute="top" id="Oaq-oV-bBu"/>
                                                     <constraint firstAttribute="height" constant="203" id="Pfj-Cp-RUd"/>
                                                     <constraint firstItem="JzV-Sd-482" firstAttribute="leading" secondItem="U0h-qi-8at" secondAttribute="leading" id="Q4A-ES-FQl"/>
+                                                    <constraint firstItem="cMN-gs-4sA" firstAttribute="top" secondItem="U0h-qi-8at" secondAttribute="bottom" constant="78" id="Qdp-3E-xpt"/>
                                                     <constraint firstItem="JzV-Sd-482" firstAttribute="trailing" secondItem="U0h-qi-8at" secondAttribute="trailing" id="Us7-jC-Dmt"/>
+                                                    <constraint firstItem="cMN-gs-4sA" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="M42-On-GIp" secondAttribute="leading" constant="20" symbolic="YES" id="VVw-Sz-zNZ"/>
                                                     <constraint firstItem="VV1-9f-Vwx" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="U0h-qi-8at" secondAttribute="leading" id="X2G-86-N9X"/>
                                                     <constraint firstItem="AlV-GA-yfp" firstAttribute="leading" secondItem="M42-On-GIp" secondAttribute="leading" constant="8" id="YRS-ER-DQw"/>
                                                     <constraint firstItem="VV1-9f-Vwx" firstAttribute="leading" secondItem="M42-On-GIp" secondAttribute="leading" constant="83" id="cpC-OB-5jP"/>
                                                     <constraint firstItem="U0h-qi-8at" firstAttribute="top" secondItem="M42-On-GIp" secondAttribute="top" constant="40" id="erw-YQ-qCI"/>
-                                                    <constraint firstItem="WQP-bA-G2i" firstAttribute="leading" secondItem="VV1-9f-Vwx" secondAttribute="trailing" constant="173.66666666666666" id="lDC-uX-HNv"/>
+                                                    <constraint firstItem="WQP-bA-G2i" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="VV1-9f-Vwx" secondAttribute="trailing" constant="8" symbolic="YES" id="lVE-ZH-Prz"/>
                                                     <constraint firstItem="VV1-9f-Vwx" firstAttribute="top" secondItem="M42-On-GIp" secondAttribute="top" constant="14" id="z5N-Dy-UXu"/>
                                                 </constraints>
                                                 <userDefinedRuntimeAttributes>
@@ -154,22 +168,71 @@
                                                 <color key="textColor" systemColor="systemRedColor"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Ya0-nd-WjQ">
+                                                <rect key="frame" x="84" y="500.66666666666663" width="25" height="25"/>
+                                                <color key="backgroundColor" red="0.28229904169999998" green="0.62523168330000001" blue="0.97258895639999998" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="width" constant="25" id="213-k0-T2B"/>
+                                                    <constraint firstAttribute="height" constant="25" id="OtG-5d-x2F"/>
+                                                </constraints>
+                                                <fontDescription key="fontDescription" name=".AppleSystemUIFont" family=".AppleSystemUIFont" pointSize="14"/>
+                                                <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                                <size key="titleShadowOffset" width="3" height="3"/>
+                                                <state key="normal">
+                                                    <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                </state>
+                                                <userDefinedRuntimeAttributes>
+                                                    <userDefinedRuntimeAttribute type="boolean" keyPath="layer.maskToBounds" value="YES"/>
+                                                    <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                                        <real key="value" value="12.5"/>
+                                                    </userDefinedRuntimeAttribute>
+                                                </userDefinedRuntimeAttributes>
+                                            </button>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="本日はあと" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ewP-8z-IN9">
+                                                <rect key="frame" x="15" y="510.00000000000006" width="66.333333333333329" height="15.666666666666686"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                                                <nil key="textColor"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="回編集できます。" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="EsD-kd-dPD">
+                                                <rect key="frame" x="113" y="510.33333333333337" width="99" height="15"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                                <nil key="textColor"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="uZk-Jq-6AC">
+                                                <rect key="frame" x="0.0" y="533" width="131" height="31"/>
+                                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                                <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                                <state key="normal" title="編集回数を増やす">
+                                                    <color key="titleColor" systemColor="systemGrayColor"/>
+                                                </state>
+                                            </button>
                                         </subviews>
                                         <constraints>
                                             <constraint firstItem="zsv-cl-qHn" firstAttribute="top" secondItem="M42-On-GIp" secondAttribute="bottom" constant="8" id="3Fw-cC-o70"/>
                                             <constraint firstItem="uLZ-pI-jf7" firstAttribute="top" secondItem="J0r-GK-p6L" secondAttribute="top" constant="90" id="41J-aR-gME"/>
                                             <constraint firstItem="zsv-cl-qHn" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="JeG-4T-mmA" secondAttribute="leading" id="5Be-FH-YFF"/>
+                                            <constraint firstItem="ewP-8z-IN9" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="M42-On-GIp" secondAttribute="leading" id="7tB-TS-S9l"/>
                                             <constraint firstAttribute="height" constant="932" id="DPx-Nh-bAW"/>
+                                            <constraint firstItem="EsD-kd-dPD" firstAttribute="leading" secondItem="Ya0-nd-WjQ" secondAttribute="trailing" constant="4" id="JLf-6s-bc6"/>
                                             <constraint firstItem="M42-On-GIp" firstAttribute="top" secondItem="uLZ-pI-jf7" secondAttribute="bottom" constant="61.666666666666657" id="KMf-Af-HbO"/>
                                             <constraint firstAttribute="trailing" secondItem="JeG-4T-mmA" secondAttribute="trailing" constant="300.33333333333331" id="NSb-HM-CfE"/>
+                                            <constraint firstAttribute="trailing" secondItem="ewP-8z-IN9" secondAttribute="trailing" constant="297.66666666666663" id="RqC-He-c7v"/>
                                             <constraint firstAttribute="trailing" secondItem="uLZ-pI-jf7" secondAttribute="trailing" constant="15" id="TpJ-P9-oe1"/>
                                             <constraint firstItem="zsv-cl-qHn" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="J0r-GK-p6L" secondAttribute="leading" constant="20" symbolic="YES" id="X47-Ch-gc6"/>
                                             <constraint firstItem="FK4-BI-qp1" firstAttribute="centerX" secondItem="zsv-cl-qHn" secondAttribute="centerX" id="YDo-TR-EQf"/>
                                             <constraint firstItem="uLZ-pI-jf7" firstAttribute="leading" secondItem="J0r-GK-p6L" secondAttribute="leading" constant="15" id="acz-3U-ZCd"/>
+                                            <constraint firstItem="Ya0-nd-WjQ" firstAttribute="leading" secondItem="J0r-GK-p6L" secondAttribute="leading" constant="84" id="bJ0-PQ-gK6"/>
                                             <constraint firstAttribute="trailing" secondItem="M42-On-GIp" secondAttribute="trailing" constant="15" id="dD5-h5-8Jh"/>
+                                            <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="EsD-kd-dPD" secondAttribute="trailing" constant="20" symbolic="YES" id="emH-It-3hl"/>
                                             <constraint firstItem="M42-On-GIp" firstAttribute="top" secondItem="JeG-4T-mmA" secondAttribute="bottom" constant="8" id="hA1-RN-8sS"/>
                                             <constraint firstItem="M42-On-GIp" firstAttribute="leading" secondItem="uLZ-pI-jf7" secondAttribute="leading" id="hPF-vC-qvf"/>
+                                            <constraint firstItem="ewP-8z-IN9" firstAttribute="bottom" secondItem="Ya0-nd-WjQ" secondAttribute="bottom" id="hrB-7c-UqE"/>
                                             <constraint firstAttribute="trailing" secondItem="zsv-cl-qHn" secondAttribute="trailing" constant="44" id="iAm-b0-SvT"/>
+                                            <constraint firstItem="EsD-kd-dPD" firstAttribute="baseline" secondItem="ewP-8z-IN9" secondAttribute="baseline" id="lB9-ub-jEs"/>
+                                            <constraint firstItem="ewP-8z-IN9" firstAttribute="top" secondItem="zsv-cl-qHn" secondAttribute="bottom" constant="46" id="tDf-xu-mth"/>
                                             <constraint firstItem="FK4-BI-qp1" firstAttribute="trailing" secondItem="zsv-cl-qHn" secondAttribute="trailing" id="uID-FF-7y5"/>
                                             <constraint firstItem="M42-On-GIp" firstAttribute="top" secondItem="J0r-GK-p6L" secondAttribute="top" constant="204" id="uOB-yQ-VzE"/>
                                             <constraint firstItem="JeG-4T-mmA" firstAttribute="top" secondItem="FK4-BI-qp1" secondAttribute="bottom" constant="8" id="xUM-Fx-JhR"/>
@@ -200,6 +263,8 @@
                     </view>
                     <size key="freeformSize" width="390" height="844"/>
                     <connections>
+                        <outlet property="editButton" destination="cMN-gs-4sA" id="JGf-iK-HNd"/>
+                        <outlet property="editCountButton" destination="Ya0-nd-WjQ" id="eef-6O-xRw"/>
                         <outlet property="errorMessage" destination="FK4-BI-qp1" id="hj3-Lb-pl7"/>
                         <outlet property="switchView" destination="rOp-oQ-ZQg" id="EEH-wa-Bg2"/>
                         <outlet property="textView" destination="JzV-Sd-482" id="V2F-ZJ-nah"/>
@@ -208,10 +273,11 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="18.46153846153846" y="97.393364928909946"/>
+            <point key="canvasLocation" x="15.384615384615383" y="95.97156398104265"/>
         </scene>
     </scenes>
     <resources>
+        <image name="square.and.pencil" catalog="system" width="128" height="115"/>
         <image name="メモ通知180x180" width="180" height="180"/>
         <systemColor name="labelColor">
             <color white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
