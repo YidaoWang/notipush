@@ -12,4 +12,7 @@ class AppConstants{
     static let BODY_TEXT_KEY: String = "BODY_TEXT_KEY"
     static let NOTIFY_FLAG_KEY: String = "NOTIFY_FLAG_KEY"
     static let TITLE_DEFAULT_VALUE: String = "メモ通知"
+    static let EDIT_COUNT_KEY: String = "EDIT_COUNT_KEY"
+    static let EDIT_FLAG_KEY: String = "EDIT_FLAG_KEY"
+    static let LAST_LOGIN_DATE_KEY: String = "LAST_LOGIN_DATE_KEY"
 }

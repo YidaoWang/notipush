@@ -7,6 +7,8 @@
 
 import UIKit
 import GoogleMobileAds
+import AppTrackingTransparency
+import AdSupport
 
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate,UNUserNotificationCenterDelegate {
@@ -17,6 +19,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate,UNUserNotificationCenterDe
         let notificationCenter = UNUserNotificationCenter.current()
         notificationCenter.delegate = self
         GADMobileAds.sharedInstance().start(completionHandler: nil)
+        
+        if #available(iOS 14, *) {
+                    ATTrackingManager.requestTrackingAuthorization(completionHandler: { status in GADMobileAds.sharedInstance().start(completionHandler: nil)
+                        })
+                    } else {
+                        // Fallback on earlier versions
+                        GADMobileAds.sharedInstance().start(completionHandler: nil)
+        }
         return true
     }
 

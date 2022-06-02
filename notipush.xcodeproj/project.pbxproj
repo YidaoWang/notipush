@@ -8,6 +8,9 @@
 
 /* Begin PBXBuildFile section */
 		39A60E9D965CBE0B360C1FA1 /* Pods_notipush.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4C89E338F7BF873552C66B0A /* Pods_notipush.framework */; };
+		7D3F66762848295900120E99 /* Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D3F66752848295900120E99 /* Extension.swift */; };
+		7D3F667A28483A5700120E99 /* ModalViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D3F667928483A5700120E99 /* ModalViewController.swift */; };
+		7D3F667E284844EB00120E99 /* ModalViewButtonDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D3F667D284844EB00120E99 /* ModalViewButtonDelegate.swift */; };
 		7D6FA7D228329904003A199C /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D6FA7D128329904003A199C /* AppDelegate.swift */; };
 		7D6FA7D428329904003A199C /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D6FA7D328329904003A199C /* SceneDelegate.swift */; };
 		7D6FA7D628329904003A199C /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D6FA7D528329904003A199C /* ViewController.swift */; };
@@ -47,6 +50,9 @@
 		44064906F6E3596724BE3E32 /* Pods-notipush-notipushUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-notipush-notipushUITests.debug.xcconfig"; path = "Target Support Files/Pods-notipush-notipushUITests/Pods-notipush-notipushUITests.debug.xcconfig"; sourceTree = "<group>"; };
 		4C89E338F7BF873552C66B0A /* Pods_notipush.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_notipush.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		72194E8159FC5E1E01597C4D /* Pods_notipush_notipushUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_notipush_notipushUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		7D3F66752848295900120E99 /* Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extension.swift; sourceTree = "<group>"; };
+		7D3F667928483A5700120E99 /* ModalViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModalViewController.swift; sourceTree = "<group>"; };
+		7D3F667D284844EB00120E99 /* ModalViewButtonDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ModalViewButtonDelegate.swift; sourceTree = "<group>"; };
 		7D6FA7CE28329904003A199C /* notipush.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = notipush.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		7D6FA7D128329904003A199C /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		7D6FA7D328329904003A199C /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -130,6 +136,9 @@
 				7D6FA7DC28329906003A199C /* LaunchScreen.storyboard */,
 				7D6FA7DF28329906003A199C /* Info.plist */,
 				7DF5B09228448DE500198D25 /* AppConstants.swift */,
+				7D3F66752848295900120E99 /* Extension.swift */,
+				7D3F667928483A5700120E99 /* ModalViewController.swift */,
+				7D3F667D284844EB00120E99 /* ModalViewButtonDelegate.swift */,
 			);
 			path = notipush;
 			sourceTree = "<group>";
@@ -161,7 +170,6 @@
 				93A4C594AC8E86B5B01B7EC7 /* Pods-notipushTests.debug.xcconfig */,
 				3A5A8D5C58FEDDF3DAE4D855 /* Pods-notipushTests.release.xcconfig */,
 			);
-			name = Pods;
 			path = Pods;
 			sourceTree = "<group>";
 		};
@@ -415,9 +423,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7D3F66762848295900120E99 /* Extension.swift in Sources */,
 				7D6FA7D628329904003A199C /* ViewController.swift in Sources */,
 				7D6FA7D228329904003A199C /* AppDelegate.swift in Sources */,
 				7D6FA7D428329904003A199C /* SceneDelegate.swift in Sources */,
+				7D3F667E284844EB00120E99 /* ModalViewButtonDelegate.swift in Sources */,
+				7D3F667A28483A5700120E99 /* ModalViewController.swift in Sources */,
 				7DF5B09328448DE500198D25 /* AppConstants.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
