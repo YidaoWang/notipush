@@ -7,6 +7,7 @@ target 'notipush' do
 
   # Pods for notipush
   pod 'Google-Mobile-Ads-SDK'
+  pod 'SwiftyStoreKit'
 
   target 'notipushTests' do
     inherit! :search_paths

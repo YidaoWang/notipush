@@ -7,7 +7,7 @@
 
 import UIKit
 import GoogleMobileAds
-
+import StoreKit
 class ViewController: UIViewController, UITextViewDelegate, GADFullScreenContentDelegate, ModalViewButtonDelegate{
     @IBOutlet weak var titleField: UITextField!
     @IBOutlet weak var switchView: UISwitch!
@@ -20,6 +20,7 @@ class ViewController: UIViewController, UITextViewDelegate, GADFullScreenContent
     private var editFlag: Bool = false
     private var lastLoginDate: Date?
     private var interstitial: GADInterstitialAd?
+    @IBOutlet weak var editCountDescriptionLabel: UILabel!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -41,25 +42,38 @@ class ViewController: UIViewController, UITextViewDelegate, GADFullScreenContent
         
         registerAppData()
         loadAppData()
-        let f = DateFormatter()
-        f.dateFormat = DateFormatter.dateFormat(fromTemplate: "yMMMd", options: 0, locale: Locale(identifier: "ja_JP"))
-        if(f.string(from: lastLoginDate!) != f.string(from: Date.now)){
-            lastLoginDate = Date.now
-            setEditCount(count: 3)
-            saveAppData()
+        notificationRequest()
+        
+        AppStoreClass.shared.reload()
+        if(!AppStoreClass.shared.isUnlimit()){
+            // 一般ユーザ
+            let f = DateFormatter()
+            f.dateFormat = DateFormatter.dateFormat(fromTemplate: "yMMMd", options: 0, locale: Locale(identifier: "ja_JP"))
+            if(f.string(from: lastLoginDate!) != f.string(from: Date.now)){
+                lastLoginDate = Date.now
+                setEditCount(count: 3)
+                saveAppData()
+            }
+            createInterAd()
+        }
+        else {
+            // 無制限ユーザ
+            editCountLable.text = "無制限"
+            editCountDescriptionLabel.isHidden = true
         }
         
-        notificationRequest()
-        bannerView = GADBannerView(adSize: GADAdSizeBanner)
-        addBannerViewToView(bannerView)
-        
-        // GADBannerViewのプロパティを設定
-        bannerView.adUnitID = "ca-app-pub-3940256099942544/2934735716"
-        bannerView.rootViewController = self
-        
-        // 広告読み込み
-        bannerView.load(GADRequest())
-        createInterAd()
+        if(!AppStoreClass.shared.isBannerDisabled()){
+            // バーナーあり
+            bannerView = GADBannerView(adSize: GADAdSizeBanner)
+            addBannerViewToView(bannerView)
+            
+            // GADBannerViewのプロパティを設定
+            bannerView.adUnitID = "ca-app-pub-3940256099942544/2934735716"
+            bannerView.rootViewController = self
+            
+            // バナー広告読み込み
+            bannerView.load(GADRequest())
+        }
     }
     
     func createInterAd(){
@@ -138,6 +152,7 @@ class ViewController: UIViewController, UITextViewDelegate, GADFullScreenContent
         modalVC?.modalPresentationStyle = .formSheet
         modalVC?.delegate = self
         present(modalVC!, animated: true, completion: nil)
+        modalVC?.updateView()
     }
     
     func AdButtonOnTouchUp() {
@@ -146,19 +161,25 @@ class ViewController: UIViewController, UITextViewDelegate, GADFullScreenContent
         } else {
             print("Ad wasn't ready")
         }
-        //modalVC?.dismiss(animated: true, completion: nil)
     }
     
     func unlimitButtonOnTouchUp() {
-        setEditCount(count: getEditCount() + 1)
-        saveAppData()
-        modalVC?.dismiss(animated: true, completion: nil)
+        AppStoreClass.shared.purchaseUnlimitFromAppStore{
+            self.editCountLable.text = "無制限"
+            self.editCountDescriptionLabel.isHidden = true
+            self.editButton.isEnabled = true
+            self.modalVC?.dismiss(animated: true, completion: nil)
+        }
     }
     
     func ultimateButtonOnTouchUp() {
-        setEditCount(count: getEditCount() + 1)
-        saveAppData()
-        modalVC?.dismiss(animated: true, completion: nil)
+        AppStoreClass.shared.purchaseUltimateFromAppStore{
+            self.editCountLable.text = "無制限"
+            self.editCountDescriptionLabel.isHidden = true
+            self.bannerView.isHidden = true
+            self.editButton.isEnabled = true
+            self.modalVC?.dismiss(animated: true, completion: nil)
+        }
     }
     
     func switchValueChange(isOn: Bool){
@@ -180,27 +201,37 @@ class ViewController: UIViewController, UITextViewDelegate, GADFullScreenContent
     }
     
     @IBAction func editTouchUp(_ sender: Any) {
-        let count = getEditCount()
-        if(count > 0){
-            setEditCount(count: count-1)
+        if(AppStoreClass.shared.isUnlimit()){
             errorMessage.text = nil
             switchView.setOn(false, animated: true)
             switchEditMode(isOn: true)
             saveAppData()
-        }else{
-            
+        }
+        else{
+            let count = getEditCount()
+            if(count > 0){
+                setEditCount(count: count-1)
+                errorMessage.text = nil
+                switchView.setOn(false, animated: true)
+                switchEditMode(isOn: true)
+                saveAppData()
+            }else{
+                
+            }
         }
     }
     
     @IBAction func titleDidBeginEditing(_ sender: UITextView) {
     }
     @IBAction func titleEditingChanged(_ sender: UITextView) {
+        saveAppData()
     }
     
     func textViewDidBeginEditing(_ textView: UITextView) {
     }
     
     func textViewDidChange(_ textView: UITextView) {
+        saveAppData()
     }
     
     func registerAppData(){
@@ -224,11 +255,16 @@ class ViewController: UIViewController, UITextViewDelegate, GADFullScreenContent
     }
     
     func loadAppData(){
+        AppStoreClass.shared.reload()
         textView.text = UserDefaults.standard.string(forKey: AppConstants.BODY_TEXT_KEY)
         titleField.text = UserDefaults.standard.string(forKey: AppConstants.TITLE_TEXT_KEY)
         let notifyFlag: Bool = UserDefaults.standard.bool(forKey: AppConstants.NOTIFY_FLAG_KEY)
         switchView.setOn(notifyFlag, animated: false)
-        setEditCount(count: UserDefaults.standard.integer(forKey: AppConstants.EDIT_COUNT_KEY))
+        if(AppStoreClass.shared.isUnlimit()){
+            setEditCount(count: Int.max)
+        }else{
+            setEditCount(count: UserDefaults.standard.integer(forKey: AppConstants.EDIT_COUNT_KEY))
+        }
         editFlag = UserDefaults.standard.bool(forKey: AppConstants.EDIT_FLAG_KEY)
         switchEditMode(isOn: editFlag)
         lastLoginDate = UserDefaults.standard.object(forKey: AppConstants.LAST_LOGIN_DATE_KEY) as? Date

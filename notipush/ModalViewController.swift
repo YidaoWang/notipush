@@ -10,7 +10,40 @@ import UIKit
 
 class ModalViewController: UIViewController{
     
+    @IBOutlet weak var adView: UIView!
+    @IBOutlet weak var adButton: UIButton!
+    @IBOutlet weak var unlimitButton: UIButton!
+    @IBOutlet weak var ultimateButton: UIButton!
+    @IBOutlet weak var adButtonWidth100: NSLayoutConstraint!    
     var delegate: ModalViewButtonDelegate?
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        updateView()
+    }
+    
+    func updateView(){
+        if(AppStoreClass.shared.isUnlimit()){
+            adButton.setAttributedTitle(NSAttributedString(string: "無制限",
+                                                                attributes: [NSAttributedString.Key.foregroundColor : UIColor.systemGray]), for: .normal)
+            adButton.frame = CGRect(x:adButton.frame.minX+20, y:adButton.frame.minY, width:80, height:28)
+            adButtonWidth100.constant = 80
+            adButton.isEnabled = false
+        }
+        if(AppStoreClass.shared.isUnlimitPurchased){
+            unlimitButton.setAttributedTitle(NSAttributedString(string: "購入済み",
+                                                                attributes: [NSAttributedString.Key.foregroundColor : UIColor.systemGray]), for: .normal)
+            unlimitButton.isEnabled = false
+        }
+        if(AppStoreClass.shared.isUltimatePurchased){
+            unlimitButton.setAttributedTitle(NSAttributedString(string: "購入済み",
+                                                                attributes: [NSAttributedString.Key.foregroundColor : UIColor.systemGray]), for: .normal)
+            unlimitButton.isEnabled = false
+            ultimateButton.setAttributedTitle(NSAttributedString(string: "購入済み",
+                                                                 attributes: [NSAttributedString.Key.foregroundColor : UIColor.systemGray]), for:.normal)
+            ultimateButton.isEnabled = false
+        }
+    }
     
     @IBAction func adButtonTpuchUp(_ sender: UIButton) {
         delegate?.AdButtonOnTouchUp()

@@ -46,9 +46,11 @@ PODS:
   - nanopb/decode (2.30909.0)
   - nanopb/encode (2.30909.0)
   - PromisesObjC (2.1.0)
+  - SwiftyStoreKit (0.16.1)
 
 DEPENDENCIES:
   - Google-Mobile-Ads-SDK
+  - SwiftyStoreKit
 
 SPEC REPOS:
   trunk:
@@ -58,6 +60,7 @@ SPEC REPOS:
     - GoogleUtilities
     - nanopb
     - PromisesObjC
+    - SwiftyStoreKit
 
 SPEC CHECKSUMS:
   Google-Mobile-Ads-SDK: caf686ba55108412e02a3eedb136e12e488dbfaa
@@ -66,7 +69,8 @@ SPEC CHECKSUMS:
   GoogleUtilities: e0913149f6b0625b553d70dae12b49fc62914fd1
   nanopb: b552cce312b6c8484180ef47159bc0f65a1f0431
   PromisesObjC: 99b6f43f9e1044bd87a95a60beff28c2c44ddb72
+  SwiftyStoreKit: 6b9c08810269f030586dac1fae8e75871a82e84a
 
-PODFILE CHECKSUM: bfdf19f59148b1f4f7153970b432cbfba345fef1
+PODFILE CHECKSUM: 62c4664a5705e00b81fe6a403fa1bdf43c3a08fa
 
 COCOAPODS: 1.11.3

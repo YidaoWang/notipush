@@ -15,4 +15,6 @@ class AppConstants{
     static let EDIT_COUNT_KEY: String = "EDIT_COUNT_KEY"
     static let EDIT_FLAG_KEY: String = "EDIT_FLAG_KEY"
     static let LAST_LOGIN_DATE_KEY: String = "LAST_LOGIN_DATE_KEY"
+    static let UNLIMIT_PURCHASE_FLAG_KEY: String = "UNLIMIT_PURCHASE_FLAG_KEY"
+    static let ULTIMATE_PURCHASE_FLAG_KEY: String = "ULTIMATE_PURCHASE_FLAG_KEY"
 }

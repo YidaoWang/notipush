@@ -9,6 +9,7 @@ import UIKit
 import GoogleMobileAds
 import AppTrackingTransparency
 import AdSupport
+import SwiftyStoreKit
 
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate,UNUserNotificationCenterDelegate {
@@ -27,6 +28,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate,UNUserNotificationCenterDe
                         // Fallback on earlier versions
                         GADMobileAds.sharedInstance().start(completionHandler: nil)
         }
+        initSwiftyStorekit()
         return true
     }
 
@@ -64,4 +66,20 @@ class AppDelegate: UIResponder, UIApplicationDelegate,UNUserNotificationCenterDe
         myViewController.notify(nil)
         myViewController.notifyPersistent()
     }
+    
+    func initSwiftyStorekit() {
+           SwiftyStoreKit.completeTransactions(atomically: true) { purchases in
+               for purchase in purchases {
+                   switch purchase.transaction.transactionState {
+                   case .purchased, .restored:
+                       if purchase.needsFinishTransaction {
+                           SwiftyStoreKit.finishTransaction(purchase.transaction)
+                       }
+                   // Unlock content
+                   case .failed, .purchasing, .deferred:
+                       break // do nothing
+                   }
+               }
+           }
+       }
 }

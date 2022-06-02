@@ -11,6 +11,8 @@
 		7D3F66762848295900120E99 /* Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D3F66752848295900120E99 /* Extension.swift */; };
 		7D3F667A28483A5700120E99 /* ModalViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D3F667928483A5700120E99 /* ModalViewController.swift */; };
 		7D3F667E284844EB00120E99 /* ModalViewButtonDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D3F667D284844EB00120E99 /* ModalViewButtonDelegate.swift */; };
+		7D3F66802848780700120E99 /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7D3F667F2848780700120E99 /* StoreKit.framework */; };
+		7D3F668328487B8D00120E99 /* AppStoreClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D3F668228487B8D00120E99 /* AppStoreClass.swift */; };
 		7D6FA7D228329904003A199C /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D6FA7D128329904003A199C /* AppDelegate.swift */; };
 		7D6FA7D428329904003A199C /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D6FA7D328329904003A199C /* SceneDelegate.swift */; };
 		7D6FA7D628329904003A199C /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D6FA7D528329904003A199C /* ViewController.swift */; };
@@ -53,6 +55,9 @@
 		7D3F66752848295900120E99 /* Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extension.swift; sourceTree = "<group>"; };
 		7D3F667928483A5700120E99 /* ModalViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModalViewController.swift; sourceTree = "<group>"; };
 		7D3F667D284844EB00120E99 /* ModalViewButtonDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ModalViewButtonDelegate.swift; sourceTree = "<group>"; };
+		7D3F667F2848780700120E99 /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
+		7D3F66812848784C00120E99 /* Configuration.storekit */ = {isa = PBXFileReference; lastKnownFileType = text; path = Configuration.storekit; sourceTree = "<group>"; };
+		7D3F668228487B8D00120E99 /* AppStoreClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppStoreClass.swift; sourceTree = "<group>"; };
 		7D6FA7CE28329904003A199C /* notipush.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = notipush.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		7D6FA7D128329904003A199C /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		7D6FA7D328329904003A199C /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -80,6 +85,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				39A60E9D965CBE0B360C1FA1 /* Pods_notipush.framework in Frameworks */,
+				7D3F66802848780700120E99 /* StoreKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -127,6 +133,7 @@
 		7D6FA7D028329904003A199C /* notipush */ = {
 			isa = PBXGroup;
 			children = (
+				7D3F66812848784C00120E99 /* Configuration.storekit */,
 				7DB0F2DB28352DF3005F69A1 /* notipush.entitlements */,
 				7D6FA7D128329904003A199C /* AppDelegate.swift */,
 				7D6FA7D328329904003A199C /* SceneDelegate.swift */,
@@ -139,6 +146,7 @@
 				7D3F66752848295900120E99 /* Extension.swift */,
 				7D3F667928483A5700120E99 /* ModalViewController.swift */,
 				7D3F667D284844EB00120E99 /* ModalViewButtonDelegate.swift */,
+				7D3F668228487B8D00120E99 /* AppStoreClass.swift */,
 			);
 			path = notipush;
 			sourceTree = "<group>";
@@ -176,6 +184,7 @@
 		A191E6374CA4E00B882F0DE7 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				7D3F667F2848780700120E99 /* StoreKit.framework */,
 				4C89E338F7BF873552C66B0A /* Pods_notipush.framework */,
 				72194E8159FC5E1E01597C4D /* Pods_notipush_notipushUITests.framework */,
 				37329E16DD01ABAFDA21C3B3 /* Pods_notipushTests.framework */,
@@ -425,6 +434,7 @@
 			files = (
 				7D3F66762848295900120E99 /* Extension.swift in Sources */,
 				7D6FA7D628329904003A199C /* ViewController.swift in Sources */,
+				7D3F668328487B8D00120E99 /* AppStoreClass.swift in Sources */,
 				7D6FA7D228329904003A199C /* AppDelegate.swift in Sources */,
 				7D6FA7D428329904003A199C /* SceneDelegate.swift in Sources */,
 				7D3F667E284844EB00120E99 /* ModalViewButtonDelegate.swift in Sources */,
