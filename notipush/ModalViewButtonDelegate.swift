@@ -11,4 +11,5 @@ protocol ModalViewButtonDelegate {
     func AdButtonOnTouchUp()
     func unlimitButtonOnTouchUp()
     func ultimateButtonOnTouchUp()
+    func restoreButtonTouchUp()
 }

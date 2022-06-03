@@ -19,15 +19,30 @@ class AppDelegate: UIResponder, UIApplicationDelegate,UNUserNotificationCenterDe
         // Override point for customization after application launch.
         let notificationCenter = UNUserNotificationCenter.current()
         notificationCenter.delegate = self
-        GADMobileAds.sharedInstance().start(completionHandler: nil)
         
+        GADMobileAds.sharedInstance().start(completionHandler: nil)
         if #available(iOS 14, *) {
-                    ATTrackingManager.requestTrackingAuthorization(completionHandler: { status in GADMobileAds.sharedInstance().start(completionHandler: nil)
-                        })
+                    switch ATTrackingManager.trackingAuthorizationStatus {
+                    case .authorized:
+                        print("Allow Tracking")
+                        print("IDFA: \(ASIdentifierManager.shared().advertisingIdentifier)")
+                    case .denied:
+                        print("😭拒否")
+                    case .restricted:
+                        print("🥺制限")
+                    case .notDetermined:
+                        showRequestTrackingAuthorizationAlert()
+                    @unknown default:
+                        fatalError()
+                    }
+                } else {// iOS14未満
+                    if ASIdentifierManager.shared().isAdvertisingTrackingEnabled {
+                        print("Allow Tracking")
+                        print("IDFA: \(ASIdentifierManager.shared().advertisingIdentifier)")
                     } else {
-                        // Fallback on earlier versions
-                        GADMobileAds.sharedInstance().start(completionHandler: nil)
-        }
+                        print("🥺制限")
+                    }
+                }
         initSwiftyStorekit()
         return true
     }
@@ -78,8 +93,31 @@ class AppDelegate: UIResponder, UIApplicationDelegate,UNUserNotificationCenterDe
                    // Unlock content
                    case .failed, .purchasing, .deferred:
                        break // do nothing
+                   @unknown default:
+                       fatalError()
                    }
                }
            }
        }
+    
+    ///Alert表示
+    private func showRequestTrackingAuthorizationAlert() {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1.0, execute: {
+        if #available(iOS 14, *) {
+            ATTrackingManager.requestTrackingAuthorization(completionHandler: { status in
+                switch status {
+                case .authorized:
+                    print("🎉")
+                    //IDFA取得
+                    print("IDFA: \(ASIdentifierManager.shared().advertisingIdentifier)")
+                case .denied, .restricted, .notDetermined:
+                    print("😭")
+                @unknown default:
+                    fatalError()
+                }
+            }
+            )}
+            
+        })
+    }
 }

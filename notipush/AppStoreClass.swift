@@ -12,9 +12,9 @@ final class AppStoreClass {
     private init() {}
     static let shared = AppStoreClass()
     
-    // 購入済みかどうか確認する
     var isUnlimitPurchased = false
     var isUltimatePurchased = false
+    var isAdblockPurchased = false
     
     func isUnlimit() -> Bool
     {
@@ -23,47 +23,39 @@ final class AppStoreClass {
     
     func isBannerDisabled() -> Bool
     {
-        return isUltimatePurchased
-    }
-    
-    // アプリ起動時にネットに繋いでAppStoreで購入済みか確認する（1件のみ有料アイテムを登録）
-    func isPurchasedWhenAppStart() {
-        restore()
+        return isUltimatePurchased || isAdblockPurchased
     }
     
     // 購入
     func purchaseUnlimitFromAppStore(onSuccess: @escaping () -> Void) {
-        SwiftyStoreKit.purchaseProduct("unlimit", quantity: 1, atomically: true) { result in
-            switch result {
-            case .success(let purchase):
-                print("Purchase Success: \(purchase.productId)")
-                AppStoreClass.shared.isUnlimitPurchased = true
-                UserDefaults.standard.set(true, forKey: AppConstants.UNLIMIT_PURCHASE_FLAG_KEY)
-                onSuccess()
-            case .error(let error):
-                switch error.code {
-                case .unknown: print("Unknown error. Please contact support")
-                case .clientInvalid: print("Not allowed to make the payment")
-                case .paymentCancelled: break
-                case .paymentInvalid: print("The purchase identifier was invalid")
-                case .paymentNotAllowed: print("The device is not allowed to make the payment")
-                case .storeProductNotAvailable: print("The product is not available in the current storefront")
-                case .cloudServicePermissionDenied: print("Access to cloud service information is not allowed")
-                case .cloudServiceNetworkConnectionFailed: print("Could not connect to the network")
-                case .cloudServiceRevoked: print("User has revoked permission to use this cloud service")
-                @unknown default: break
-                }
-            }
-        }
+        purchaseFromAppStore(product: "unlimit", onSuccess: {
+            AppStoreClass.shared.isUnlimitPurchased = true
+            UserDefaults.standard.set(true, forKey: AppConstants.UNLIMIT_PURCHASE_FLAG_KEY)
+            onSuccess()
+        })
     }
     
     func purchaseUltimateFromAppStore(onSuccess: @escaping () -> Void) {
-        SwiftyStoreKit.purchaseProduct("ultimate", quantity: 1, atomically: true) { result in
+        purchaseFromAppStore(product: "ultimate", onSuccess: {
+            AppStoreClass.shared.isUltimatePurchased = true
+            UserDefaults.standard.set(true, forKey: AppConstants.ULTIMATE_PURCHASE_FLAG_KEY)
+            onSuccess()
+        })
+    }
+    
+    func purchaseAdblockFromAppStore(onSuccess: @escaping () -> Void) {
+        purchaseFromAppStore(product: "adblock", onSuccess: {
+            AppStoreClass.shared.isAdblockPurchased = true
+            UserDefaults.standard.set(true, forKey: AppConstants.ADBLOCK_PURCHASE_FLAG_KEY)
+            onSuccess()
+        })
+    }
+    
+    func purchaseFromAppStore(product: String, onSuccess: @escaping () -> Void){
+        SwiftyStoreKit.purchaseProduct(product, quantity: 1, atomically: true) { result in
             switch result {
             case .success(let purchase):
                 print("Purchase Success: \(purchase.productId)")
-                AppStoreClass.shared.isUltimatePurchased = true
-                UserDefaults.standard.set(true, forKey: AppConstants.ULTIMATE_PURCHASE_FLAG_KEY)
                 onSuccess()
             case .error(let error):
                 switch error.code {
@@ -83,33 +75,47 @@ final class AppStoreClass {
     }
     
     // リストア
-    func restore() {
+    func restore(restoreSuccess:@escaping ()->Void, restoreFailed:@escaping ()->Void) {
         SwiftyStoreKit.restorePurchases(atomically: true) { result in
+            var isUnlimitPurchased = false
+            var isUltimatePurchased = false
+            var isAdblockPurchased = false
             for product in result.restoredPurchases {
                 if product.needsFinishTransaction {
                     SwiftyStoreKit.finishTransaction(product.transaction)
                 }
-                
                 if product.productId == "unlimit" {
-                    // プロダクトID1のリストア後の処理を記述する
-                    self.isUnlimitPurchased = true
-                    UserDefaults.standard.set(true, forKey:AppConstants.UNLIMIT_PURCHASE_FLAG_KEY)
-                    return
+                    isUnlimitPurchased = true
                 }
                 else if product.productId == "ultimate" {
-                    // プロダクトID1のリストア後の処理を記述する
-                    self.isUltimatePurchased = true
-                    UserDefaults.standard.set(true, forKey:AppConstants.ULTIMATE_PURCHASE_FLAG_KEY)
-                    return
+                    isUltimatePurchased = true
+                }
+                else if product.productId == "adblock" {
+                    isAdblockPurchased = true
                 }
             }
-            self.isUnlimitPurchased = false
-            self.isUltimatePurchased = false
+            if(isUnlimitPurchased || isUltimatePurchased || isAdblockPurchased){
+                self.isUnlimitPurchased = isUnlimitPurchased
+                self.isUltimatePurchased = isUltimatePurchased
+                self.isAdblockPurchased = isAdblockPurchased
+                self.save()
+                restoreSuccess()
+            }
+            else{
+                restoreFailed()
+            }
         }
+    }
+    
+    func save(){
+        UserDefaults.standard.set(isUnlimitPurchased, forKey: AppConstants.UNLIMIT_PURCHASE_FLAG_KEY)
+        UserDefaults.standard.set(isUltimatePurchased, forKey: AppConstants.ULTIMATE_PURCHASE_FLAG_KEY)
+        UserDefaults.standard.set(isAdblockPurchased, forKey: AppConstants.ADBLOCK_PURCHASE_FLAG_KEY)
     }
     
     func reload(){
         self.isUnlimitPurchased = UserDefaults.standard.bool(forKey: AppConstants.UNLIMIT_PURCHASE_FLAG_KEY)
         self.isUltimatePurchased = UserDefaults.standard.bool(forKey: AppConstants.ULTIMATE_PURCHASE_FLAG_KEY)
+        self.isAdblockPurchased = UserDefaults.standard.bool(forKey: AppConstants.ADBLOCK_PURCHASE_FLAG_KEY)
     }
 }

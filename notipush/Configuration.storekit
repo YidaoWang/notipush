@@ -43,6 +43,26 @@
       "productID" : "ultimate",
       "referenceName" : "ultimate",
       "type" : "NonConsumable"
+    },
+    {
+      "displayPrice" : "120",
+      "familyShareable" : false,
+      "internalID" : "02F731E1",
+      "localizations" : [
+        {
+          "description" : "",
+          "displayName" : "",
+          "locale" : "en_US"
+        },
+        {
+          "description" : "",
+          "displayName" : "バナー広告削除",
+          "locale" : "ja"
+        }
+      ],
+      "productID" : "adblock",
+      "referenceName" : "adblock",
+      "type" : "NonConsumable"
     }
   ],
   "settings" : {

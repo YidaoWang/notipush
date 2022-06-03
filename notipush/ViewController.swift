@@ -15,12 +15,16 @@ class ViewController: UIViewController, UITextViewDelegate, GADFullScreenContent
     @IBOutlet weak var errorMessage: UILabel!
     @IBOutlet weak var editButton: UIButton!
     @IBOutlet weak var editCountLable: UILabel!
-    private var modalVC: ModalViewController?
-    private var bannerView: GADBannerView!
-    private var editFlag: Bool = false
-    private var lastLoginDate: Date?
-    private var interstitial: GADInterstitialAd?
     @IBOutlet weak var editCountDescriptionLabel: UILabel!
+    @IBOutlet weak var editCountDescriptionLabel2: UILabel!
+    @IBOutlet weak var switchDescriptionLabel: UILabel!
+    @IBOutlet weak var cancelEditButton: UIButton!
+    private var modalVC: ModalViewController?
+    private var bannerView: GADBannerView?
+    private var lastLoginDate: Date?
+    private var interstitial: GADRewardedAd?
+    private var lastTitle: String?
+    private var lastText: String?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -28,9 +32,11 @@ class ViewController: UIViewController, UITextViewDelegate, GADFullScreenContent
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
         appDelegate.myViewController = self
         textView.delegate = self
+        
         let tapGR: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
         tapGR.cancelsTouchesInView = false
         self.view.addGestureRecognizer(tapGR)
+        
         titleField.leftView = UIView(frame: CGRect(x: 0, y: 0, width: 5, height: 0))
         titleField.leftViewMode = UITextField.ViewMode.always
         titleField.layer.cornerRadius = 6;
@@ -42,7 +48,6 @@ class ViewController: UIViewController, UITextViewDelegate, GADFullScreenContent
         
         registerAppData()
         loadAppData()
-        notificationRequest()
         
         AppStoreClass.shared.reload()
         if(!AppStoreClass.shared.isUnlimit()){
@@ -51,7 +56,7 @@ class ViewController: UIViewController, UITextViewDelegate, GADFullScreenContent
             f.dateFormat = DateFormatter.dateFormat(fromTemplate: "yMMMd", options: 0, locale: Locale(identifier: "ja_JP"))
             if(f.string(from: lastLoginDate!) != f.string(from: Date.now)){
                 lastLoginDate = Date.now
-                setEditCount(count: 3)
+                setEditCount(count: getEditCount() + 1)
                 saveAppData()
             }
             createInterAd()
@@ -60,35 +65,36 @@ class ViewController: UIViewController, UITextViewDelegate, GADFullScreenContent
             // 無制限ユーザ
             editCountLable.text = "無制限"
             editCountDescriptionLabel.isHidden = true
+            editCountDescriptionLabel2.isHidden = true
         }
         
         if(!AppStoreClass.shared.isBannerDisabled()){
             // バーナーあり
             bannerView = GADBannerView(adSize: GADAdSizeBanner)
-            addBannerViewToView(bannerView)
+            addBannerViewToView(bannerView!)
             
             // GADBannerViewのプロパティを設定
-            bannerView.adUnitID = "ca-app-pub-3940256099942544/2934735716"
-            bannerView.rootViewController = self
+            bannerView!.adUnitID = "ca-app-pub-3940256099942544/2934735716"
+            bannerView!.rootViewController = self
             
             // バナー広告読み込み
-            bannerView.load(GADRequest())
+            bannerView!.load(GADRequest())
         }
     }
     
     func createInterAd(){
-            let request = GADRequest()
-            GADInterstitialAd.load(withAdUnitID:"ca-app-pub-3940256099942544/4411468910",
-                                        request: request,
-                              completionHandler: { [self] ad, error in
-                                if let error = error {
-                                  print("Failed 失敗です　to load interstitial ad with error: \(error.localizedDescription)")
-                                  return
-                                }
-                                interstitial = ad
-                                interstitial?.fullScreenContentDelegate = self
-                              }
-            )
+        let request = GADRequest()
+        GADRewardedAd.load(withAdUnitID:"ca-app-pub-3940256099942544/1712485313",
+                           request: request,
+                           completionHandler: { [self] ad, error in
+            if let error = error {
+                print("Failed 失敗です　to load interstitial ad with error: \(error.localizedDescription)")
+                return
+            }
+            interstitial = ad
+            interstitial?.fullScreenContentDelegate = self
+        }
+        )
     }
     
     func addBannerViewToView(_ bannerView: GADBannerView) {
@@ -113,14 +119,16 @@ class ViewController: UIViewController, UITextViewDelegate, GADFullScreenContent
     }
     
     
-    func notificationRequest(){
+    func notificationRequest(reqGranted:@escaping ()->Void, reqRegected:@escaping ()->Void){
         let notificationCenter = UNUserNotificationCenter.current()
         // プッシュ通知の許可を依頼する際のコード
         notificationCenter.requestAuthorization(options: [.alert, .badge, .sound]) { (granted, error) in
             // [.alert, .badge, .sound]と指定されているので、「アラート、バッジ、サウンド」の3つに対しての許可をリクエストした
             if granted {
                 // 「許可」が押された場合
+                reqGranted()
             } else {
+                reqRegected()
                 let alert = UIAlertController(title: nil, message: "アプリで通知を受け取るために、設定で通知を許可してください。", preferredStyle: .alert)
                 let yes = UIAlertAction(title: "設定を開く", style: .default, handler: { (action) -> Void in
                     UIApplication.shared.open(URL(string: UIApplication.openSettingsURLString)!)})
@@ -135,16 +143,14 @@ class ViewController: UIViewController, UITextViewDelegate, GADFullScreenContent
         }
     }
     
-    
     @objc func dismissKeyboard() {
-        if(switchView.isOn){
-            switchEditMode(isOn: false)
-        }
         self.view.endEditing(true)
     }
     
     @IBAction func switchValueChanged(_ sender: UISwitch) {
         switchValueChange(isOn: sender.isOn)
+        saveAppData()
+        updateView()
     }
     
     @IBAction func modalShowButtonTouchUp(_ sender: UIButton) {
@@ -157,7 +163,11 @@ class ViewController: UIViewController, UITextViewDelegate, GADFullScreenContent
     
     func AdButtonOnTouchUp() {
         if interstitial != nil {
-            interstitial?.present(fromRootViewController: modalVC!)
+            interstitial?.present(fromRootViewController: modalVC!, userDidEarnRewardHandler: {
+                self.setEditCount(count: self.getEditCount() + 1)
+                self.saveAppData()
+                self.updateView()
+            })
         } else {
             print("Ad wasn't ready")
         }
@@ -165,21 +175,39 @@ class ViewController: UIViewController, UITextViewDelegate, GADFullScreenContent
     
     func unlimitButtonOnTouchUp() {
         AppStoreClass.shared.purchaseUnlimitFromAppStore{
-            self.editCountLable.text = "無制限"
-            self.editCountDescriptionLabel.isHidden = true
-            self.editButton.isEnabled = true
+            self.updateView()
             self.modalVC?.dismiss(animated: true, completion: nil)
         }
     }
     
     func ultimateButtonOnTouchUp() {
-        AppStoreClass.shared.purchaseUltimateFromAppStore{
-            self.editCountLable.text = "無制限"
-            self.editCountDescriptionLabel.isHidden = true
-            self.bannerView.isHidden = true
-            self.editButton.isEnabled = true
-            self.modalVC?.dismiss(animated: true, completion: nil)
+        if(AppStoreClass.shared.isUnlimitPurchased){
+            AppStoreClass.shared.purchaseAdblockFromAppStore{
+                self.updateView()
+                self.modalVC?.dismiss(animated: true, completion: nil)
+            }
         }
+        else{
+            AppStoreClass.shared.purchaseUltimateFromAppStore{
+                self.updateView()
+                self.modalVC?.dismiss(animated: true, completion: nil)
+            }
+        }
+    }
+    
+    func restoreButtonTouchUp() {
+        AppStoreClass.shared.restore(restoreSuccess: {
+            let alert = UIAlertController(title: nil, message: "購入情報の復元に成功しました。", preferredStyle: .alert)
+            let ok = UIAlertAction(title: "OK", style: .default)
+            alert.addAction(ok)
+            self.modalVC!.present(alert, animated: true, completion: nil)
+            self.updateView()
+        }, restoreFailed: {
+            let alert = UIAlertController(title: nil, message: "購入情報の復元に失敗しました。", preferredStyle: .alert)
+            let ok = UIAlertAction(title: "OK", style: .default)
+            alert.addAction(ok)
+            self.modalVC!.present(alert, animated: true, completion: nil)
+        })
     }
     
     func switchValueChange(isOn: Bool){
@@ -189,49 +217,107 @@ class ViewController: UIViewController, UITextViewDelegate, GADFullScreenContent
                 switchView.setOn(false, animated: true)
                 return
             }
-            removeCurrentNotifications()
-            notify()
-            notifyPersistent()
-            switchEditMode(isOn: false)
+            if(isEditing){
+                editingComplete()
+            }
+            notificationRequest(reqGranted: {
+                DispatchQueue.main.async {
+                    self.errorMessage.text = nil
+                    self.updateView()
+                    self.removeCurrentNotifications()
+                    self.notify()
+                    self.notifyPersistent()
+                }
+            }, reqRegected: {
+                DispatchQueue.main.async {
+                    self.switchView.setOn(false, animated: true)
+                    self.errorMessage.text = "通知を許可してください。"
+                    self.updateView()
+                }
+            })
         }
         else{
             removeCurrentNotifications()
         }
-        saveAppData()
+    }
+    
+    func updateView(){
+        if(switchView.isOn){
+            switchDescriptionLabel.text = "設定からバナー通知をお切りいただけます。"
+        }
+        else{
+            switchDescriptionLabel.text = "メモ通知は１時間ごとにサイレント通知され、ロック画面に常に表示されます。"
+        }
+        
+        if(isEditing){
+            titleField.isEnabled = true
+            textView.isEditable = true
+            titleField.placeholder = "タイトル"
+            titleField.layer.borderWidth = 0.5
+            textView.layer.borderWidth = 0.5
+            editButton.setTitle("完了", for: .normal)
+            editButton.isEnabled = true
+            cancelEditButton.isHidden = false
+        } else {
+            titleField.isEnabled = false
+            textView.isEditable = false
+            titleField.placeholder = nil
+            titleField.endEditing(true)
+            textView.endEditing(true)
+            titleField.layer.borderWidth = 0
+            textView.layer.borderWidth = 0
+            editButton.setTitle("編集", for: .normal)
+            editButton.isEnabled = checkEditEnabled()
+            cancelEditButton.isHidden = true
+        }
+        
+        if(AppStoreClass.shared.isUnlimit()){
+            editCountLable.text = "無制限"
+            editCountDescriptionLabel.isHidden = true
+            editCountDescriptionLabel2.isHidden = true
+        }
+        if(AppStoreClass.shared.isBannerDisabled()){
+            bannerView?.isHidden = true
+        }
+    }
+    
+    func checkEditEnabled() -> Bool{
+        return AppStoreClass.shared.isUnlimit() || getEditCount() > 0
     }
     
     @IBAction func editTouchUp(_ sender: Any) {
-        if(AppStoreClass.shared.isUnlimit()){
-            errorMessage.text = nil
-            switchView.setOn(false, animated: true)
-            switchEditMode(isOn: true)
-            saveAppData()
-        }
-        else{
-            let count = getEditCount()
-            if(count > 0){
-                setEditCount(count: count-1)
-                errorMessage.text = nil
-                switchView.setOn(false, animated: true)
-                switchEditMode(isOn: true)
-                saveAppData()
-            }else{
-                
+        if(isEditing){
+            editingComplete()
+        }else{
+            if(AppStoreClass.shared.isUnlimit()){
+                editingStart()
+            }
+            else{
+                if(getEditCount() > 0){
+                    editingStart()
+                }else{
+                }
             }
         }
+        updateView()
+    }
+    
+    @IBAction func cancelEditTouchUp(_ sender: Any) {
+        editingCancel()
+        updateView()
     }
     
     @IBAction func titleDidBeginEditing(_ sender: UITextView) {
     }
     @IBAction func titleEditingChanged(_ sender: UITextView) {
-        saveAppData()
+        errorMessage.text = nil
     }
     
     func textViewDidBeginEditing(_ textView: UITextView) {
     }
     
     func textViewDidChange(_ textView: UITextView) {
-        saveAppData()
+        errorMessage.text = nil
     }
     
     func registerAppData(){
@@ -250,7 +336,7 @@ class ViewController: UIViewController, UITextViewDelegate, GADFullScreenContent
         UserDefaults.standard.set(titleField.text, forKey: AppConstants.TITLE_TEXT_KEY)
         UserDefaults.standard.set(switchView.isOn, forKey: AppConstants.NOTIFY_FLAG_KEY)
         UserDefaults.standard.set(getEditCount(), forKey: AppConstants.EDIT_COUNT_KEY)
-        UserDefaults.standard.set(editFlag, forKey: AppConstants.EDIT_FLAG_KEY)
+        UserDefaults.standard.set(isEditing, forKey: AppConstants.EDIT_FLAG_KEY)
         UserDefaults.standard.set(lastLoginDate, forKey: AppConstants.LAST_LOGIN_DATE_KEY)
     }
     
@@ -260,14 +346,39 @@ class ViewController: UIViewController, UITextViewDelegate, GADFullScreenContent
         titleField.text = UserDefaults.standard.string(forKey: AppConstants.TITLE_TEXT_KEY)
         let notifyFlag: Bool = UserDefaults.standard.bool(forKey: AppConstants.NOTIFY_FLAG_KEY)
         switchView.setOn(notifyFlag, animated: false)
+        
         if(AppStoreClass.shared.isUnlimit()){
             setEditCount(count: Int.max)
         }else{
             setEditCount(count: UserDefaults.standard.integer(forKey: AppConstants.EDIT_COUNT_KEY))
         }
-        editFlag = UserDefaults.standard.bool(forKey: AppConstants.EDIT_FLAG_KEY)
-        switchEditMode(isOn: editFlag)
+        isEditing = UserDefaults.standard.bool(forKey: AppConstants.EDIT_FLAG_KEY)
         lastLoginDate = UserDefaults.standard.object(forKey: AppConstants.LAST_LOGIN_DATE_KEY) as? Date
+        updateView()
+    }
+    
+    func editingStart(){
+        switchView.setOn(false, animated: true)
+        switchValueChange(isOn: false)
+        saveAppData()
+        lastTitle = titleField.text
+        lastText = textView.text
+        isEditing = true
+        errorMessage.text = nil
+    }
+    
+    func editingComplete(){
+        isEditing = false
+        if(lastTitle != titleField.text || lastText != textView.text){
+            setEditCount(count: getEditCount() - 1)
+        }
+        saveAppData()
+    }
+    
+    func editingCancel(){
+        isEditing = false
+        titleField.text = lastTitle
+        textView.text = lastText
     }
     
     func setEditCount(count: Int){
@@ -281,26 +392,6 @@ class ViewController: UIViewController, UITextViewDelegate, GADFullScreenContent
     
     func getEditCount()->Int{
         return Int(editCountLable.text ?? "0") ?? 0
-    }
-    
-    func switchEditMode(isOn: Bool){
-        editFlag = isOn
-        if(isOn){
-            titleField.isEnabled = true
-            textView.isEditable = true
-            titleField.layer.borderWidth = 0.5
-            textView.layer.borderWidth = 0.5
-            editButton.isHidden = true
-        }
-        else{
-            titleField.isEnabled = false
-            textView.isEditable = false
-            titleField.endEditing(true)
-            textView.endEditing(true)
-            titleField.layer.borderWidth = 0
-            textView.layer.borderWidth = 0
-            editButton.isHidden = false
-        }
     }
     
     func removeCurrentNotifications(){
@@ -397,22 +488,16 @@ class ViewController: UIViewController, UITextViewDelegate, GADFullScreenContent
     func ad(_ ad: GADFullScreenPresentingAd, didFailToPresentFullScreenContentWithError error: Error) {
         print("広告表示の失敗　Ad did fail to present full screen content.")
     }
-
+    
     /// Tells the delegate that the ad presented full screen content.
     func adWillPresentFullScreenContent(_ ad: GADFullScreenPresentingAd){
         print("広告表示の成功　Ad did present full screen content.")
     }
-
+    
     /// Tells the delegate that the ad dismissed full screen content.
     func adDidDismissFullScreenContent(_ ad: GADFullScreenPresentingAd) {
         print("広告表示を消す　Ad did dismiss full screen content.")
         createInterAd()
         modalVC?.dismiss(animated: true)
-    }
-    
-    func adDidRecordImpression(_ ad: GADFullScreenPresentingAd)
-    {
-        setEditCount(count: getEditCount() + 1)
-        saveAppData()
     }
 }
