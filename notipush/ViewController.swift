@@ -74,7 +74,7 @@ class ViewController: UIViewController, UITextViewDelegate, GADFullScreenContent
             addBannerViewToView(bannerView!)
             
             // GADBannerViewのプロパティを設定
-            bannerView!.adUnitID = "ca-app-pub-3940256099942544/2934735716"
+            bannerView!.adUnitID = "ca-app-pub-3689705642710450/8110182822"
             bannerView!.rootViewController = self
             
             // バナー広告読み込み
@@ -84,7 +84,7 @@ class ViewController: UIViewController, UITextViewDelegate, GADFullScreenContent
     
     func createInterAd(){
         let request = GADRequest()
-        GADRewardedAd.load(withAdUnitID:"ca-app-pub-3940256099942544/1712485313",
+        GADRewardedAd.load(withAdUnitID:"ca-app-pub-3689705642710450/9127202286",
                            request: request,
                            completionHandler: { [self] ad, error in
             if let error = error {
