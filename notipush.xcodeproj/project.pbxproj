@@ -626,6 +626,7 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = notipush/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "メモ通知";
+				INFOPLIST_KEY_NSUserTrackingUsageDescription = "お客様にとって関心のある広告を選択する為にのみ利用します。";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
@@ -659,6 +660,7 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = notipush/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "メモ通知";
+				INFOPLIST_KEY_NSUserTrackingUsageDescription = "お客様にとって関心のある広告を選択する為にのみ利用します。";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
