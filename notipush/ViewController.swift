@@ -514,8 +514,7 @@ class ViewController: UIViewController, UITextViewDelegate, GADFullScreenContent
                 dFormatter.timeZone = TimeZone.current
                 dFormatter.dateFormat = "EEE, dd MMM yyyy HH:mm:ss z"
                 let serverTime = dFormatter.date(from: contentType)
-                //completionHandler(serverTime)
-                completionHandler(Date.now)
+                completionHandler(serverTime)
             }
         }
         task.resume()
