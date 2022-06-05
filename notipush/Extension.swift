@@ -84,3 +84,7 @@ extension UIView {
     }
   }
 }
+
+extension Notification.Name {
+    static let dayChanged = Notification.Name("dayChanged")
+}

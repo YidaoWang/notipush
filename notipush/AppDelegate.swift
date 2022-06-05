@@ -120,4 +120,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate,UNUserNotificationCenterDe
             
         })
     }
+    
+    func applicationSignificantTimeChange(_ application: UIApplication){
+        NotificationCenter.default.post(name: .dayChanged, object: nil)
+    }
 }

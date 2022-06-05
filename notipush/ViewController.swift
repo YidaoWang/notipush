@@ -52,13 +52,8 @@ class ViewController: UIViewController, UITextViewDelegate, GADFullScreenContent
         AppStoreClass.shared.reload()
         if(!AppStoreClass.shared.isUnlimit()){
             // 一般ユーザ
-            let f = DateFormatter()
-            f.dateFormat = DateFormatter.dateFormat(fromTemplate: "yMMMd", options: 0, locale: Locale(identifier: "ja_JP"))
-            if(f.string(from: lastLoginDate!) != f.string(from: Date.now)){
-                lastLoginDate = Date.now
-                setEditCount(count: getEditCount() + 1)
-                saveAppData()
-            }
+            chargeEditCountIfNewDay()
+            NotificationCenter.default.addObserver(self, selector: #selector(dayChangeOccured), name: .dayChanged, object: nil)
             createInterAd()
         }
         else {
@@ -499,5 +494,56 @@ class ViewController: UIViewController, UITextViewDelegate, GADFullScreenContent
         print("広告表示を消す　Ad did dismiss full screen content.")
         createInterAd()
         modalVC?.dismiss(animated: true)
+    }
+    @objc func dayChangeOccured() {
+        chargeEditCountIfNewDay()
+    }
+    
+    func getTimeFromServer(completionHandler:@escaping (_ getResDate: Date?) -> Void){
+        let url = URL(string: "https://www.apple.com")
+        let task = URLSession.shared.dataTask(with: url!) {(data, response, error) in
+            let httpResponse = response as? HTTPURLResponse
+            if(httpResponse == nil){
+                completionHandler(nil)
+                return
+            }
+            if let contentType = httpResponse!.allHeaderFields["Date"] as? String {
+                //print(httpResponse)
+                let dFormatter = DateFormatter()
+                dFormatter.locale = NSLocale(localeIdentifier: "en_US_POSIX") as Locale
+                dFormatter.timeZone = TimeZone.current
+                dFormatter.dateFormat = "EEE, dd MMM yyyy HH:mm:ss z"
+                let serverTime = dFormatter.date(from: contentType)
+                completionHandler(serverTime)
+            }
+        }
+        task.resume()
+    }
+    
+    func chargeEditCountIfNewDay(){
+        getTimeFromServer(completionHandler:{(serverDate) in
+            if(serverDate == nil) {
+                DispatchQueue.main.sync {
+                let alert = UIAlertController(title: nil, message: "ネットワークアクセスが無いため、現在時刻を取得できませんでした。", preferredStyle: .alert)
+                let ok = UIAlertAction(title: "OK", style: .default)
+                alert.addAction(ok)
+                    self.present(alert, animated: true, completion: nil)
+                    
+                }
+                return
+            }
+            let calendar = Calendar.current
+            let lastday = calendar.date(from: calendar.dateComponents([.year, .month, .day], from: self.lastLoginDate!))!
+            let today = calendar.date(from: calendar.dateComponents([.year, .month, .day], from: serverDate!))!
+            let diff = calendar.dateComponents([.day], from: lastday, to: today)
+            if(diff.day! >= 1){
+                DispatchQueue.main.sync {
+                    self.lastLoginDate = serverDate
+                    self.setEditCount(count: self.getEditCount() + 1)
+                    self.saveAppData()
+                    self.updateView()
+                }
+            }
+        })
     }
 }
