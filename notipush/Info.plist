@@ -2,6 +2,8 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+    <key>GADIsAdManagerApp</key>
+    <true/>
     <key>NSUserTrackingUsageDescription</key>
     <string>お客様にとって関心のある広告を選択する為にのみ利用します。</string>
     <key>UIApplicationSceneManifest</key>
