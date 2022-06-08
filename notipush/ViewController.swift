@@ -543,6 +543,11 @@ class ViewController: UIViewController, UITextViewDelegate, GADFullScreenContent
                     self.saveAppData()
                     self.updateView()
                 }
+            }else{
+                DispatchQueue.main.sync {
+                    self.lastLoginDate = serverDate
+                    self.saveAppData()
+                }
             }
         })
     }
