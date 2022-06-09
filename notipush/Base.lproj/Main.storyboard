@@ -642,6 +642,8 @@
                         <outlet property="adButtonWidth100" destination="79I-hW-rGV" id="3QL-3L-d7p"/>
                         <outlet property="adView" destination="u1P-jb-8Xi" id="tl4-EE-BHn"/>
                         <outlet property="ultimateButton" destination="bcA-zf-UHz" id="efg-xV-cAk"/>
+                        <outlet property="ultimateHeight" destination="yrk-s1-znq" id="oyG-Oq-HVb"/>
+                        <outlet property="ultimateLabel" destination="gtJ-76-Qa2" id="ehZ-VN-Wl2"/>
                         <outlet property="unlimitButton" destination="Vip-Sd-Ec4" id="9aY-0l-FHs"/>
                     </connections>
                 </viewController>

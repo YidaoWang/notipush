@@ -6,7 +6,7 @@
     <true/>
     <key>NSUserTrackingUsageDescription</key>
     <string>お客様にとって関心のある広告を選択する為にのみ利用します。</string>
-    <key>UIApplicationSceneManifest</key>
+    <key>GADApplicationIdentifier</key>
 	<string>ca-app-pub-3689705642710450~6732957320</string>
 	<key>SKAdNetworkItems</key>
 	<array>

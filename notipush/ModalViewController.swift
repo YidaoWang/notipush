@@ -15,6 +15,8 @@ class ModalViewController: UIViewController{
     @IBOutlet weak var unlimitButton: UIButton!
     @IBOutlet weak var ultimateButton: UIButton!
     @IBOutlet weak var adButtonWidth100: NSLayoutConstraint!
+    @IBOutlet weak var ultimateLabel: UILabel!
+    @IBOutlet weak var ultimateHeight: NSLayoutConstraint!
     var delegate: ModalViewButtonDelegate?
     
     override func viewDidLoad() {
@@ -33,6 +35,8 @@ class ModalViewController: UIViewController{
                                                                 attributes: [NSAttributedString.Key.foregroundColor : UIColor.systemGray]), for: .normal)
             if(!AppStoreClass.shared.isBannerDisabled())
             {
+                ultimateLabel.text = "バナー広告削除"
+                ultimateHeight.constant = 120
                 ultimateButton.setAttributedTitle(NSAttributedString(string: "¥120",
                                                                      attributes: [NSAttributedString.Key.foregroundColor : UIColor.systemBlue]), for:.normal)
                 unlimitButton.isEnabled = false
